@@ -128,7 +128,12 @@ function useProvideAuth() {
 		})
 	};
 
-	const login = async (email:string, password:string):Promise<ResultJwt> => {
+	type bodyParams = {
+		email: string,
+		password: string
+	}
+
+	const login = async (body:bodyParams):Promise<ResultJwt> => {
 		setLoad(true)
 		return await fetch(`${api}/signin`, {
 			headers: {
@@ -137,12 +142,12 @@ function useProvideAuth() {
 			},
 			method: "POST",
 			body: JSON.stringify({
-				email: email,
-				password: password
+				email: body.email,
+				password: body.password
 			})
 		}).then(async resp => {
 			if (resp.status === 403) {
-				await getAuthorization().then(async () => await login(email, password))
+				await getAuthorization().then(async () => await login(body))
 			}
 			return await resp.json()
 		}).then(body => {
@@ -172,7 +177,7 @@ function useProvideAuth() {
 			})
 		}).then(async resp => {
 			if (resp.status === 403) {
-				await getAuthorization().then(async () => await login(email, password))
+				await getAuthorization().then(async () => await loginBo(email, password))
 			}
 			return await resp.json()
 		}).then(body => {

@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { UUID, ProductDetails } from '../utils/types'
+import { ProductDetails } from '../utils/types'
 
 export const itemCountAtom = atom<number>({
     key: 'itemCountAtom',
