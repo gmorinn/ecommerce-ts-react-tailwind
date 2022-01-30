@@ -1,22 +1,14 @@
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import useInput from "../../hooks/useInput";
 import useRouter from "../../hooks/useRouter";
-// import * as api from '../firebase/api'
 import Err from '../../utils/humanResp'
 import { useAuth } from '../../hooks/useAuth'
 import Loader from '../Loader'
 import AlternateEmailIcon from '../../assets/icons/email.svg'
-import UseFormGroup from "../../hooks/useForm";
+import GoogleIcon from '../../assets/icons/google.svg'
 import { displaySuccess } from "../../utils/toastMessage";
-
-const styles = {
-    outline: '0',
-    borderWidth:'0 0 1px',
-    borderColor: 'black',
-}
 
 type FormValues = {
     email: string,
@@ -37,9 +29,6 @@ const SignIn = () => {
         resolver: yupResolver(schema)
     });
 
-    const email = useInput("", "email", "email", "Email...", "w-100", styles)
-    const password = useInput("", "password", "password", "Password...", "w-100", styles)
-
     const onSubmit:SubmitHandler<FormValues> = async ({email, password}) => {
         await login({ email, password })
             .then((res:any) => {
@@ -51,40 +40,67 @@ const SignIn = () => {
             })
     }
 
-    // const signGoogle = async (data) => {
-    //     await api.SignWithGoogle(signWithProvider)
-    // }
+    const signGoogle = async () => {
+        signWithProvider()
+            .then((res:any) => {
+                if (res?.success) {
+                    displaySuccess("You're connected")
+                    router.push('/')
+                }
+                else setError(res)
+            })
+    }
 
     return (
         <div className="mt-5">
-            <h2 className="mb-4">I already have an email !</h2>
+            <h2 className="mb-4 text-lg">I already have an email !</h2>
             <span>Login</span>
             <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
 
-                <div className="mb-4">
-                    <UseFormGroup bind={email} control={control} />
-                    {errors.email?.type === 'required' && <span className="text-danger">Required</span>}
-                    {errors.email?.type === 'email' && <span className="text-danger">Wrong format</span>}
+                <div className="mb-7">
+                    <Controller
+                        control={control}
+                        name="email"
+                        render={({ field }) => <input {...field} type="email"
+                        className="bg-transparent w-3/4 block outline-none mb-1 border-b-1 mt-8 border-t-0 border-r-0 border-l-0 border-indigo-500"
+                        id="email"
+                        placeholder="Email..."
+                    />}
+                />
+                    {errors.email?.type === 'required' && <span className="text-red-900 text-sm">Required</span>}
+                    {errors.email?.type === 'email' && <span className="text-red-900 text-sm">Wrong format</span>}
                 </div>
 
-                <div className="mb-4">
-                    <UseFormGroup bind={password} control={control} />
-                    {errors.password?.type === 'required' && <span className="text-danger">Required</span>}
-                    {errors.password?.type === 'min' && <span className="text-danger">Too small</span>}
+                <div className="mb-10">
+                    <Controller
+                            control={control}
+                            name="password"
+                            render={({ field }) => <input {...field} type="password"
+                            className="bg-transparent w-3/4 block mb-1 outline-none border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
+                            id="password"
+                            placeholder="Password..."
+                        />}
+                    />
+                    {errors.password?.type === 'required' && <span className="text-red-900 text-sm">Required</span>}
+                    {errors.password?.type === 'min' && <span className="text-red-900 text-sm">Too small</span>}
                 </div>
-               
-                <button type="submit" className=" text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg text-sm px-2 py-2 text-center inline-flex items-center mr-2 mb-2">
+
+                <button type="submit" disabled={load} className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg text-sm px-2 py-2 text-center inline-flex items-center mr-2 mb-2">
                     {load ? <Loader /> : <>
-                        <img src={AlternateEmailIcon} className="w-5"/>
+                        <img src={AlternateEmailIcon} className="w-5 mr-2" alt="email"/>
                         Login by mail
                     </>}
                 </button>
 
-                {/* <Button size="small" className="w-100 px-5 pt-3 pb-3 mb-2" variant="contained" color='error' disabled={load} onClick={signGoogle}>
-                    {load ? <Loader /> : <><Box component="i" marginRight="1rem"><GoogleIcon /></Box>Login with Google</>}
-                </Button> */}
+                <button type="button" disabled={load} className="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 rounded-lg text-sm px-2 py-2 text-center inline-flex items-center mr-2 mb-2"
+                onClick={signGoogle}>
+                    {load ? <Loader /> : <>
+                        <img src={GoogleIcon} className="w-5 mr-2" alt="google"/>
+                        Login by Google
+                    </>}
+                </button>
 
-                {error && <span className="text-danger">{error}</span>}
+                {error && <span className="text-red-900 text-sm">{error}</span>}
             </form>
         </div>
     )

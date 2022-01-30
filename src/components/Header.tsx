@@ -25,10 +25,10 @@ const Header: FC = () => {
 
   return (
       <nav className="bg-white mb-4">
-        <div className="container flex flex-wrap justify-between mx-auto">
+        <div className="container flex flex-wrap justify-between mx-auto items-center">
           <img src={WhatshotIcon} alt="logo" className='flex w-10 cursor-pointer' onClick={() => router.push('/')}/>
           <div className="hidden w-full md:block md:w-auto">
-            <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+            <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
               <li>
                 <Link className="mx-2 text-dark" to="/shop">Shop</Link>
               </li>

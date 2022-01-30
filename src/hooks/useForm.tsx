@@ -12,11 +12,8 @@ type InputProps = {
 
 type FormProps = {
     bind: any,
-    phone?: boolean,
     select?: boolean,
     date?: boolean,
-    number?: boolean,
-    css?: string | null,
     file?: boolean,
     control?: any,
     format?: string | undefined,
@@ -25,34 +22,13 @@ type FormProps = {
     other?: any | undefined,
 }
 
-const UseFormGroup = ({ bind, phone, select, date, number, file, control, css, ...other }:FormProps) => {
+const UseFormGroup = ({ bind, select, date, file, control, ...other }:FormProps) => {
     return (
         <>
-        {/* // <FormControl className={`${css ? `${css}` : "mt-5 w-100"}`}> */}
-            {
-                phone  ?  <InputPhone bind={bind} control={control} /> :
-                select ?  <InputSelect bind={bind} control={control} {...other} /> :
-                date   ?  <InputDate bind={bind} control={control} {...other} /> :
-                number ?  <InputNumber bind={bind} control={control} {...other} />
-                       :  <InputText bind={bind} control={control} />
-            }
-        {/* // </FormControl> */}
+            <InputText bind={bind} control={control} {...other}/>
         </>
     )
 };
-
-const InputPhone = ({ bind, control }:InputProps) => {
-    return (
-        <Controller
-            {...bind.bindHookForm}
-            country={'fr'}
-            onlyCountries={['fr', 're', 'be', 'yt', 'gf', 'pf', 'tf', 'mu']}
-            control={control}
-            className="form-tel"
-            render={({ field }) => <input {...field} {...bind.bindInput} />}
-        />
-    )
-}
 
 const InputText = ({ bind, control }:InputProps) => {
     return (
@@ -64,27 +40,6 @@ const InputText = ({ bind, control }:InputProps) => {
         />
     )
 }
-
-const InputNumber = ({ bind, control, ...other }:InputProps) => {
-    return (
-        <Controller
-            {...bind.bindHookForm}
-            {...other}
-            control={control}
-            className="form-number"
-            render={({ field }) => <input {...field} autoComplete='off' {...bind.bindInput} />}
-        />
-    )
-}
-
-// const InputFile = ({ bind, control }) => {
-//     return (
-//         <Controller
-//             control={control}
-//             render={({ field }) => <InputFileBrowser value={bind.value} set={bind.setValue} {...field} {...bind.bindInput} />}
-//         />
-//     )
-// }
 
 const InputDate = ({ bind, format, label }:InputProps) => {
     return (

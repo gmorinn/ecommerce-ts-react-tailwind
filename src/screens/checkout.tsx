@@ -20,14 +20,14 @@ const Checkout: FC = () => {
         {
             displayItem <= 0 ? 
                 <div className="text-center p-5">
-                    <img src={RemoveShoppingCartIcon} alt="" className="mb-4"/>
+                    <img src={RemoveShoppingCartIcon} alt="remove" className="mb-4 w-1/6 mx-auto"/>
                     <h2 className="mb-4">Your shopping cart is empty</h2> 
-                    <button className="px-4 pt-2 pb-2" onClick={() => router.navigate('/shop')}>
+                    <button className="text-white bg-gradient-to-br from-black to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2" onClick={() => router.navigate('/shop')}>
                         Buy Now !
                     </button>
                 </div> :
                 <>
-                    <table>
+                    <table className="w-full text-center">
                         <thead>
                             <tr>
                                 <th>Product</th>
@@ -43,10 +43,10 @@ const Checkout: FC = () => {
                         }
                         </tbody>
                     </table>
-                    <div className="d-flex flex-column mt-4">
-                        <h4 className="d-flex justify-content-end mb-2">TOTAL: {displayItem}€</h4>
+                    <div className="grid flex-col justify-items-end mt-4">
+                        <h4 className="mb-2">TOTAL: {displayItem}€</h4>
                         <StripeButton price={displayItem} />
-                        <small className="text-danger d-flex justify-content-end">* Carte test: 4242 4242 4242 4242</small>
+                        <small className="text-red-900">* Carte test: 4242 4242 4242 4242</small>
                     </div>
                 </>
             }

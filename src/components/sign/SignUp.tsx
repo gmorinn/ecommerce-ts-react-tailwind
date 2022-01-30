@@ -1,22 +1,13 @@
-import useInput from "../../hooks/useInput";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import useRouter from "../../hooks/useRouter";
 import Loader from '../Loader'
 import Err from '../../utils/humanResp'
-// import * as api from '../../firebase/api'
 import AlternateEmailIcon from '../../assets/icons/email.svg'
 import { useAuth } from "../../hooks/useAuth";
-import UseFormGroup from "../../hooks/useForm";
 import { useState } from 'react';
 import { displaySuccess } from '../../utils/toastMessage';
-
-const styles = {
-    outline: '0',
-    borderWidth:'0 0 1px',
-    borderColor: 'black',
-}
 
 type FormValues = {
     email: string,
@@ -50,14 +41,6 @@ const SignUp = () => {
         resolver: yupResolver(schema)
     });
 
-    const firstname = useInput("", "firstname", "text", "Firstname...", "w-100", styles)
-    const lastname = useInput("", "lastname", "text", "Lastname...", "w-100", styles)
-    const email = useInput("", "email", "email", "Email...", "w-100", styles)
-    const password = useInput("", "password", "password", "Password...", "w-100", styles)
-    const confirm_password = useInput("", "confirm_password", "password", "Confirm password...", "w-100", styles)
-    const phone = useInput("", "phone", "phone", "Phone number...", "w-100")
-    const birthday = useInput(null, "birthday", "date", "Birthday...", "w-100")
-
     const onSubmit:SubmitHandler<FormValues> = async data => {
         await signup({ email: data.email,
                         firstname: data.firstname,
@@ -66,12 +49,12 @@ const SignUp = () => {
                         confirm_password: data.confirm_password,
                         phone: data.phone,
                         birthday: data.birthday
-                    }) .then((res:any) => {
-                        if (res?.success) {
-                            displaySuccess("You're connected")
-                            router.push('/')
-                        }
-                        else setError(Err(res))
+                    }).then((res:any) => {
+                            if (res?.success) {
+                                displaySuccess("You're connected")
+                                router.push('/')
+                            }
+                            else setError(Err(res))
                     })
         }
 
@@ -79,59 +62,86 @@ const SignUp = () => {
         <div className="mt-5">
             <h2 className="mb-4">Register</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
-
-            <div className="mb-5 grid grid-cols-2 gap-3">
-                <div className="mb-4">
-                    <UseFormGroup bind={firstname} control={control} />
-                    {errors.firstname?.type === 'required' && <span className="text-danger">Required</span>}
-                </div>
-
-               <div className="mb-4">
-                    <UseFormGroup bind={lastname} control={control} />
-                    {errors.lastname?.type === 'required' && <span className="text-danger">Required</span>}
-                </div>
-
-                <div className="mb-4">
-                    <UseFormGroup bind={password} control={control} />
-                    {errors.password?.type === 'required' && <span className="text-danger">Required</span>}
-                    {errors.password?.type === 'min' && <span className="text-danger">Too small</span>}
-                </div>
-
-                <div className="mb-4">
-                    <UseFormGroup bind={confirm_password} control={control} />
-                    {errors.confirm_password?.type === 'required' && <span className="text-danger">Required</span>}
-                    {errors.confirm_password?.type === 'min' && <span className="text-danger">Too small</span>}
-                    {errors.confirm_password?.type === 'oneOf' && <span className="text-danger">Wrong password</span>}
-                </div>
-
-                <div className="mb-4">
-                    <UseFormGroup 
-                        date
-                        bind={birthday}
-                        format="MM/dd/yyyy"
-                        label="Birthday"
+                <div className="mb-5 grid grid-cols-2 gap-3">
+                <div className="mb-7">
+                        <Controller
+                            control={control}
+                            name="firstname"
+                            render={({ field }) => <input {...field} type="text"
+                            className="bg-transparent w-3/4 block outline-none mb-1 border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
+                            id="firsntame"
+                            placeholder="Firstname..."
+                        />}
                     />
-                </div>
+                        {errors.firstname?.type === 'required' && <span className="text-red-900 text-sm">Required</span>}
+                        {errors.firstname?.type === 'min' && <span className="text-red-900 text-sm">Too small</span>}
+                    </div>
 
-                <div>
-                    <UseFormGroup bind={email} control={control} />
-                    {errors.email?.type === 'required' && <span className="text-danger">Required</span>}
-                    {errors.email?.type === 'email' && <span className="text-danger">Wrong format</span>}
-                </div>
+                    <div className="mb-7">
+                        <Controller
+                            control={control}
+                            name="lastname"
+                            render={({ field }) => <input {...field} type="text"
+                            className="bg-transparent w-3/4 block outline-none mb-1 border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
+                            id="firsntame"
+                            placeholder="Lastname..."
+                        />}
+                    />
+                        {errors.lastname?.type === 'required' && <span className="text-red-900 text-sm">Required</span>}
+                        {errors.lastname?.type === 'min' && <span className="text-red-900 text-sm">Too small</span>}
+                    </div>
 
-                <div className="mb-4">
-                    <UseFormGroup bind={phone} phone control={control}/>
-                </div>
+                    <div className="mb-7">
+                        <Controller
+                            control={control}
+                            name="email"
+                            render={({ field }) => <input {...field} type="email"
+                            className="bg-transparent w-3/4 block outline-none mb-1 border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
+                            id="email"
+                            placeholder="Email..."
+                        />}
+                    />
+                        {errors.email?.type === 'required' && <span className="text-red-900 text-sm">Required</span>}
+                        {errors.email?.type === 'email' && <span className="text-red-900 text-sm">Wrong format</span>}
+                    </div>
 
+                    <div className="mb-7">
+                        <Controller
+                                control={control}
+                                name="password"
+                                render={({ field }) => <input {...field} type="password"
+                                className="bg-transparent w-3/4 block mb-1 outline-none border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
+                                id="password"
+                                placeholder="Password..."
+                            />}
+                        />
+                        {errors.password?.type === 'required' && <span className="text-red-900 text-sm">Required</span>}
+                        {errors.password?.type === 'min' && <span className="text-red-900 text-sm">Too small</span>}
+                    </div>
+
+                    <div className="mb-7">
+                        <Controller
+                                control={control}
+                                name="confirm_password"
+                                render={({ field }) => <input {...field} type="password"
+                                className="bg-transparent w-3/4 block mb-1 outline-none border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
+                                id="confirm_password"
+                                placeholder="Confirm Password..."
+                            />}
+                        />
+                        {errors.confirm_password?.type === 'oneOf' && <span className="text-red-900 text-sm">Wrong password</span>}
+                        {errors.confirm_password?.type === 'required' && <span className="text-red-900 text-sm">Required</span>}
+                        {errors.confirm_password?.type === 'min' && <span className="text-red-900 text-sm">Too small</span>}
+                    </div>
             </div>
 
-                <button type="submit" className="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 mr-2 mb-2">
+                <button type="submit" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg text-sm px-2 py-2 text-center inline-flex items-center mr-2 mb-2">
                     {load ? <Loader /> : <>
-                        <img src={AlternateEmailIcon} className="w-5"/>
+                        <img src={AlternateEmailIcon} className="w-5 mr-2" alt="register"/>
                         Register
                     </>}
                 </button>
-                {error && <span className="text-danger text-center">{error}</span>}
+                {error && <span className="ext-red-900 text-sm">{error}</span>}
             </form>
         </div>
     )

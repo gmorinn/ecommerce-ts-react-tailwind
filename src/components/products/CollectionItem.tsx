@@ -26,7 +26,8 @@ const CollectionItem = ({ item }:CollectionItemProps) => {
     return (
         <div className="w-full">
             <img
-                className="product-items w-full object-fill"
+                className="product-items object-fill mx-auto"
+                style={{ height: '400px', width: '100%'}}
                 src={cover.substring(0, 4) !== "http" ? process.env.REACT_APP_API_URL + cover : cover}
                 alt="Items"
             />

@@ -36,7 +36,7 @@ const CartResume = ({ item }:CartResumeProps) => {
     return (
         <tr>
              <td>
-                <img src={item.cover} alt="img" style={{width: '170px'}} />
+                <img src={item.cover} alt="img"  className="mx-auto" style={{width: '170px'}} />
             </td>
             <td>
                 <span>{item.name}</span>

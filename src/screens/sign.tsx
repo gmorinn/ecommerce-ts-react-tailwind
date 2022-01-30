@@ -4,7 +4,7 @@ const SignUp = lazy(() => import( "../components/sign/SignUp"))
 
 const Sign:FC = () => {
     return (
-        <div className="mb-5 grid grid-cols-2 gap-3">
+        <div className="mb-5 grid grid-cols-2 gap-5">
             <SignIn />
             <SignUp />
         </div>

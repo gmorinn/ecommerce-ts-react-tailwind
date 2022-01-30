@@ -1,5 +1,6 @@
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { firebase, googleAuthProvider } from '../components/firebase/firebase'
 import { ResetPasswordProps, ResultJwt, ResultSendCodeConfirmation, SignUpParams, SignWithSocialMediaParams, SuccessResult } from "../utils/types";
 
 
@@ -193,29 +194,46 @@ function useProvideAuth() {
 		})
 	};
 
-	const signWithProvider = async (payload:SignWithSocialMediaParams):Promise<ResultJwt> => {
+	const signWithProvider = async ():Promise<any> => {
 		setLoad(true)
-		return await fetch(`${api}/sign-providers`, {
-			headers: {
-				"Content-Type": "application/json",
-				"Authorization": `Bearer ${getOAuthToken()}`,
-			},
-			method: "POST",
-			body: JSON.stringify({
-				...payload
+		firebase
+			.auth()
+			.signInWithPopup(googleAuthProvider)
+			.then(async (res:any) => {
+				if (res && res.additionalUserInfo && res.user) {
+					if (res.user.multiFactor.user) {
+						const payload = {
+							firstname: res.additionalUserInfo.profile.given_name,
+							lastname: res.additionalUserInfo.profile.family_name,
+							email: res.additionalUserInfo.profile.email,
+							firebase_provider: res.additionalUserInfo.providerId,
+							firebase_uid: res.user.multiFactor.user.uid,
+							firebase_id_token: res.user.multiFactor.user.accessToken,
+						}
+						await fetch(`${api}/sign-providers`, {
+							headers: {
+								"Content-Type": "application/json",
+								"Authorization": `Bearer ${getOAuthToken()}`,
+							},
+							method: "POST",
+							body: JSON.stringify({
+								...payload
+							})
+						}).then(async resp => {
+							if (resp.status === 403) {
+								await getAuthorization().then(async () => await signWithProvider())
+							}
+							return await resp.json()
+						}).then(body => {
+							setLoad(false)
+							setAccessToken(body.access_token);
+							setRefreshToken(body.refresh_token);
+							setUser(getUser(body.access_token));
+							return body;
+						})
+					}
+				}
 			})
-		}).then(async resp => {
-			if (resp.status === 403) {
-				await getAuthorization().then(async () => await signWithProvider(payload))
-			}
-			return await resp.json()
-		}).then(body => {
-			setLoad(false)
-			setAccessToken(body.access_token);
-			setRefreshToken(body.refresh_token);
-			setUser(getUser(body.access_token));
-			return body;
-		})
 	};
 
 

@@ -10,8 +10,8 @@ const PreviewCollection = ({ items }:PreviewCollectionProps) => {
 	let { category } = useParams<{category: string}>();
     return (
         <>
-            <h1 className="bloc">{category?.toUpperCase()}</h1>
-            <div className="mb-5 grid grid-cols-3 gap-3">
+            <h1 className="bloc text-lg text-blue-600 mb-5">{category?.toUpperCase()}</h1>
+            <div className="mb-5 grid grid-cols-4 gap-5">
                 {items && items.length > 0 && items
                     .map((item) => {
                         return (
