@@ -28,7 +28,7 @@ const Shop: FC = () => {
             </> :
             <div className="w-100 h-100">
                 <h3 className="text-center p-5 mt-auto">
-                    <span><img src={ErrorIcon} alt="" /> </span>
+                    <span><img src={ErrorIcon} alt="error" className="w-1/6 mx-auto" /> </span>
                     No product available.
                 </h3>
             </div>

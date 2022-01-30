@@ -1,7 +1,7 @@
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { firebase, googleAuthProvider } from '../components/firebase/firebase'
-import { ResetPasswordProps, ResultJwt, ResultSendCodeConfirmation, SignUpParams, SignWithSocialMediaParams, SuccessResult } from "../utils/types";
+import { ResetPasswordProps, ResultJwt, ResultSendCodeConfirmation, SignUpParams, SuccessResult } from "../utils/types";
 
 
 const authContext = createContext<any | null>(null);
