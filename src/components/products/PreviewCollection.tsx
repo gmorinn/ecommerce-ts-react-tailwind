@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import CollectionItem from "./CollectionItem";
 import { ProductDetails } from '../../utils/types';
 import { useParams } from 'react-router-dom';
@@ -10,17 +9,19 @@ type PreviewCollectionProps = {
 const PreviewCollection = ({ items }:PreviewCollectionProps) => {
 	let { category } = useParams<{category: string}>();
     return (
-        <Grid container spacing={2} className="mb-5">
-            <h1 className="w-100">{category?.toUpperCase()}</h1>
-            {items && items.length > 0 && items
-                .map((item) => {
-                    return (
-                        <Grid item xs={6} md={3} key={item.id} >
-                            <CollectionItem item={item} />
-                        </Grid>
-                    )
-                })}
-        </Grid>
+        <>
+            <h1 className="bloc">{category?.toUpperCase()}</h1>
+            <div className="mb-5 grid grid-cols-3 gap-3">
+                {items && items.length > 0 && items
+                    .map((item) => {
+                        return (
+                            <div key={item.id}>
+                                <CollectionItem item={item} />
+                            </div>
+                        )
+                    })}
+            </div>
+        </>
     )
 }
 

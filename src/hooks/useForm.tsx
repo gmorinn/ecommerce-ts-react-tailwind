@@ -1,8 +1,4 @@
-import { DatePicker, LocalizationProvider } from "@mui/lab";
-import { FormControl, Input, MenuItem, Select, SxProps, TextField, Theme } from "@mui/material";
 import { Controller } from "react-hook-form";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import PhoneInput from "react-phone-input-2";
 import { EnumProps } from "../utils/types";
 
 type InputProps = {
@@ -22,7 +18,6 @@ type FormProps = {
     number?: boolean,
     css?: string | null,
     file?: boolean,
-    sx?: SxProps<Theme> | undefined,
     control?: any,
     format?: string | undefined,
     label?: string | undefined,
@@ -30,9 +25,10 @@ type FormProps = {
     other?: any | undefined,
 }
 
-const UseFormGroup = ({ bind, phone, select, date, number, file, control, css, sx, ...other }:FormProps) => {
+const UseFormGroup = ({ bind, phone, select, date, number, file, control, css, ...other }:FormProps) => {
     return (
-        <FormControl className={`${css ? `${css}` : "mt-5 w-100"}`} sx={sx}>
+        <>
+        {/* // <FormControl className={`${css ? `${css}` : "mt-5 w-100"}`}> */}
             {
                 phone  ?  <InputPhone bind={bind} control={control} /> :
                 select ?  <InputSelect bind={bind} control={control} {...other} /> :
@@ -40,7 +36,8 @@ const UseFormGroup = ({ bind, phone, select, date, number, file, control, css, s
                 number ?  <InputNumber bind={bind} control={control} {...other} />
                        :  <InputText bind={bind} control={control} />
             }
-        </FormControl>
+        {/* // </FormControl> */}
+        </>
     )
 };
 
@@ -51,7 +48,8 @@ const InputPhone = ({ bind, control }:InputProps) => {
             country={'fr'}
             onlyCountries={['fr', 're', 'be', 'yt', 'gf', 'pf', 'tf', 'mu']}
             control={control}
-            render={({ field }) => <PhoneInput {...field} {...bind.bindInput} />}
+            className="form-tel"
+            render={({ field }) => <input {...field} {...bind.bindInput} />}
         />
     )
 }
@@ -61,7 +59,8 @@ const InputText = ({ bind, control }:InputProps) => {
         <Controller
             {...bind.bindHookForm}
             control={control}
-            render={({ field }) => <Input {...field} {...bind.bindInput} />}
+            className="form-text no-underline"
+            render={({ field }) => <input {...field} {...bind.bindInput} />}
         />
     )
 }
@@ -72,7 +71,8 @@ const InputNumber = ({ bind, control, ...other }:InputProps) => {
             {...bind.bindHookForm}
             {...other}
             control={control}
-            render={({ field }) => <TextField {...field} autoComplete='off' {...bind.bindInput} />}
+            className="form-number"
+            render={({ field }) => <input {...field} autoComplete='off' {...bind.bindInput} />}
         />
     )
 }
@@ -88,17 +88,13 @@ const InputNumber = ({ bind, control, ...other }:InputProps) => {
 
 const InputDate = ({ bind, format, label }:InputProps) => {
     return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-            {...bind.bindHookForm}
+            <input {...bind.bindHookForm}
             label={label}
             value={bind.value}
             type="date"
+            className="form-date"
             inputFormat={format}
-            onChange={v => bind.setValue(v)}
-            renderInput={(params) => <TextField {...params} />}
-        />
-    </LocalizationProvider>
+            onChange={v => bind.setValue(v)}/>
     )
 }
 
@@ -109,15 +105,15 @@ const InputSelect = ({ bind, control, enums }:InputProps) => {
             {...bind.bindHookForm}
             control={control}
             render={({ field }) => 
-                <Select {...field} {...bind.bindInput}>
+                <select {...field} {...bind.bindInput} className="form-select">
                     {
                         enums?.map((v, i) => {
                             return (
-                                <MenuItem key={i} value={v.value}>{v.display}</MenuItem>
+                                <option key={i} value={v.value}>{v.display}</option>
                             )
                         })
                     }
-                </Select>
+                </select>
             }
         />
     )

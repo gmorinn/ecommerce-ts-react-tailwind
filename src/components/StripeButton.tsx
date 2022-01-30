@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import StripeCheckout from 'react-stripe-checkout'
 
 type StripeButtonProps = {
@@ -30,9 +29,9 @@ const StripeButton = ({ price }:StripeButtonProps) => {
                 image="https://stripe.com/img/documentation/checkout/marketplace.png"
                 stripeKey={publishKey ? publishKey : ""}
            >
-                <Button size="small" className="px-4 pt-2 pb-2 text-white" type='submit' variant="contained">
-                    Pay Now
-                </Button>
+                <button type="submit" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                    Purple to Blue
+                </button>
            </StripeCheckout>
         </div>
     )

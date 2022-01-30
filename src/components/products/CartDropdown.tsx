@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from '@mui/material';
 import CartItem from "./CartItem";
 import '../../assets/scss/cartDropDown.scss'
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -12,19 +11,20 @@ const CartDropdown: FC = () => {
     const setCartHidden = useSetRecoilState(cartHiddenAtom)
 
     return (
-        <div className="cart-dropdown flex-column position-absolute d-flex overflow-auto bg-white">
+        <div className="cart-dropdown flex-col absolute flex overflow-auto bg-white">
             { cartItems && cartItems.length > 0 ?
                 cartItems.map(v => {
                     return <CartItem key={v.id} id={v.id} cover={v.cover} name={v.name} price={v.price} quantity={v.quantity} category={v.category} />
                 }) : 
                 <span className="d-flex justify-content-center text-dark">Card is empty</span>
             }
-            <Button variant="contained" color="primary" style={{marginTop: 'auto'}} onClick={() => {
+            <button onClick={() => {
                 setCartHidden(v => !v)
                 navigate("/checkout");
-            }}>
+            }}
+            className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg text-sm px-2 py-2 text-center">
                 GO TO CHECKOUT
-            </Button>
+            </button>
         </div>
     )
 }

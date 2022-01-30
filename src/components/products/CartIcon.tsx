@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { cartHiddenAtom, cartItemsAtom } from "../../store/cart";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
+import AddShoppingCartIcon from '../../assets/icons/shopping.svg'
 
 
 const CartIcon: FC = () => {
@@ -16,8 +16,8 @@ const CartIcon: FC = () => {
     return (
         <div onClick={() => setCartHidden(v => !v)}>
             <span className="text-dark">
-                <AddShoppingCartIcon />
-                {displayItem}
+                <small>{displayItem}</small>
+                <img src={AddShoppingCartIcon} alt="shop" className="h-5" />
             </span>
         </div>
     )

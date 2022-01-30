@@ -11,7 +11,7 @@ body {
 .home {
     transition: all .3s ease-in-out;
     &:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
         & > .home-card-body {
             background-color: azure;
             transition: all .3s ease-in-out;

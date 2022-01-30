@@ -1,4 +1,3 @@
-import { Container } from "@mui/material";
 import { FC, lazy, useEffect } from "react";
 import './App.scss'
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
@@ -38,7 +37,7 @@ const App: FC = () => {
   }, [user])
 
   return (
-      <Container className="mt-5" maxWidth="xl">
+      <div className="container mx-auto xl">
         <Header />
         <Routes>
           {/* PUBLIC ROUTE */}
@@ -51,7 +50,7 @@ const App: FC = () => {
           {/* PRIVATE ROUTE */}
           <Route path="checkout" element={<PrivateRoute component={Checkout}/>} />
         </Routes>
-      </Container>
+      </div>
   );
 }
 

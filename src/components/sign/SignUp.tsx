@@ -1,14 +1,12 @@
-import { Button, Box, Grid } from '@mui/material';
 import useInput from "../../hooks/useInput";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import 'react-phone-input-2/lib/material.css'
 import * as yup from "yup";
 import useRouter from "../../hooks/useRouter";
 import Loader from '../Loader'
 import Err from '../../utils/humanResp'
 // import * as api from '../../firebase/api'
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
+import AlternateEmailIcon from '../../assets/icons/email.svg'
 import { useAuth } from "../../hooks/useAuth";
 import UseFormGroup from "../../hooks/useForm";
 import { useState } from 'react';
@@ -82,54 +80,57 @@ const SignUp = () => {
             <h2 className="mb-4">Register</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
 
-            <Grid container rowSpacing={2} columnSpacing={{ xs: 2, sm: 5 }}>
-                <Grid item md={6} className="mb-4">
+            <div className="mb-5 grid grid-cols-2 gap-3">
+                <div className="mb-4">
                     <UseFormGroup bind={firstname} control={control} />
                     {errors.firstname?.type === 'required' && <span className="text-danger">Required</span>}
-                </Grid>
+                </div>
 
-               <Grid item md={6} className="mb-4">
+               <div className="mb-4">
                     <UseFormGroup bind={lastname} control={control} />
                     {errors.lastname?.type === 'required' && <span className="text-danger">Required</span>}
-                </Grid>
+                </div>
 
-                <Grid item md={6} className="mb-4">
+                <div className="mb-4">
                     <UseFormGroup bind={password} control={control} />
                     {errors.password?.type === 'required' && <span className="text-danger">Required</span>}
                     {errors.password?.type === 'min' && <span className="text-danger">Too small</span>}
-                </Grid>
+                </div>
 
-                <Grid item md={6} className="mb-4">
+                <div className="mb-4">
                     <UseFormGroup bind={confirm_password} control={control} />
                     {errors.confirm_password?.type === 'required' && <span className="text-danger">Required</span>}
                     {errors.confirm_password?.type === 'min' && <span className="text-danger">Too small</span>}
                     {errors.confirm_password?.type === 'oneOf' && <span className="text-danger">Wrong password</span>}
-                </Grid>
+                </div>
 
-                <Grid item md={6} className="mb-4">
+                <div className="mb-4">
                     <UseFormGroup 
                         date
                         bind={birthday}
                         format="MM/dd/yyyy"
                         label="Birthday"
                     />
-                </Grid>
+                </div>
 
-                <Grid item md={6}>
+                <div>
                     <UseFormGroup bind={email} control={control} />
                     {errors.email?.type === 'required' && <span className="text-danger">Required</span>}
                     {errors.email?.type === 'email' && <span className="text-danger">Wrong format</span>}
-                </Grid>
+                </div>
 
-                <Grid item md={6} className="mb-4">
+                <div className="mb-4">
                     <UseFormGroup bind={phone} phone control={control}/>
-                </Grid>
+                </div>
 
-            </Grid>
+            </div>
 
-                <Button className="w-100 px-5 pt-3 pb-3" type='submit' disabled={load} variant="outlined">
-                    {load ? <Loader /> : <><Box component="i" marginRight="1rem"><AlternateEmailIcon /></Box>Register</>}
-                </Button>
+                <button type="submit" className="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 mr-2 mb-2">
+                    {load ? <Loader /> : <>
+                        <img src={AlternateEmailIcon} className="w-5"/>
+                        Register
+                    </>}
+                </button>
                 {error && <span className="text-danger text-center">{error}</span>}
             </form>
         </div>

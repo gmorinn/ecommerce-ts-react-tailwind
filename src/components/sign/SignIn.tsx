@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button, Box, Grid } from '@mui/material';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -9,8 +8,7 @@ import useRouter from "../../hooks/useRouter";
 import Err from '../../utils/humanResp'
 import { useAuth } from '../../hooks/useAuth'
 import Loader from '../Loader'
-// import GoogleIcon from '@mui/icons-material/Google';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
+import AlternateEmailIcon from '../../assets/icons/email.svg'
 import UseFormGroup from "../../hooks/useForm";
 import { displaySuccess } from "../../utils/toastMessage";
 
@@ -63,21 +61,24 @@ const SignIn = () => {
             <span>Login</span>
             <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
 
-                <Grid item md={6} className="mb-4">
+                <div className="mb-4">
                     <UseFormGroup bind={email} control={control} />
                     {errors.email?.type === 'required' && <span className="text-danger">Required</span>}
                     {errors.email?.type === 'email' && <span className="text-danger">Wrong format</span>}
-                </Grid>
+                </div>
 
-                <Grid item md={6} className="mb-4">
+                <div className="mb-4">
                     <UseFormGroup bind={password} control={control} />
                     {errors.password?.type === 'required' && <span className="text-danger">Required</span>}
                     {errors.password?.type === 'min' && <span className="text-danger">Too small</span>}
-                </Grid>
-
-                <Button size="small" className="w-100 px-5 pt-3 pb-3 mb-2 text-white" type='submit' style={{backgroundColor: 'black'}} disabled={load}>
-                    {load ? <Loader /> : <><Box component="i" marginRight="1rem"><AlternateEmailIcon /></Box>Login by mail</>}
-                </Button>
+                </div>
+               
+                <button type="submit" className=" text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg text-sm px-2 py-2 text-center inline-flex items-center mr-2 mb-2">
+                    {load ? <Loader /> : <>
+                        <img src={AlternateEmailIcon} className="w-5"/>
+                        Login by mail
+                    </>}
+                </button>
 
                 {/* <Button size="small" className="w-100 px-5 pt-3 pb-3 mb-2" variant="contained" color='error' disabled={load} onClick={signGoogle}>
                     {load ? <Loader /> : <><Box component="i" marginRight="1rem"><GoogleIcon /></Box>Login with Google</>}

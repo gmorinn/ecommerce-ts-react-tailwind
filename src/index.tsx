@@ -2,7 +2,6 @@ import { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { RecoilRoot } from 'recoil';
 import "./index.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import ErrorBoundary from "./screens/errorBoundary";

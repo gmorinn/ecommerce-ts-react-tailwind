@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import PreviewAll from "../components/products/PreviewAll";
 import { useApi } from '../hooks/useApi'
-import ErrorIcon from '@mui/icons-material/Error';
+import ErrorIcon from '../assets/icons/error.svg';
 
 const Shop: FC = () => {
     const [shop, setShop] = useState([])
@@ -28,7 +28,7 @@ const Shop: FC = () => {
             </> :
             <div className="w-100 h-100">
                 <h3 className="text-center p-5 mt-auto">
-                    <span><ErrorIcon fontSize='large'/> </span>
+                    <span><img src={ErrorIcon} alt="" /> </span>
                     No product available.
                 </h3>
             </div>
