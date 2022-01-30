@@ -18,7 +18,7 @@
 
 **Shop Page**
 
-![](img/shop.png)
+![](img/products.png)
 
 --------------------------
 
