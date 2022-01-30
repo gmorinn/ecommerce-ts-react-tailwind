@@ -43,16 +43,16 @@ const CartResume = ({ item }:CartResumeProps) => {
             </td>
             <td>
                 <span>
-                    <span style={{cursor: 'pointer'}} onClick={() => removeItem(cartItem, item)}>&#10094;</span>
+                    <span className="cursor-pointer" onClick={() => removeItem(cartItem, item)}>&#10094;</span>
                         <span style={{margin: '0 10px'}}>{item.quantity}</span>
-                    <span style={{cursor: 'pointer'}} onClick={() => addItem(cartItem, item)}>&#10095;</span>
+                    <span className="cursor-pointer" onClick={() => addItem(cartItem, item)}>&#10095;</span>
                 </span>
             </td>
             <td>
                 <span>{item.price}$</span>
             </td>
             <td>
-                <span style={{cursor: 'pointer'}} onClick={() => setCartItem(cartItem.filter(v => v.id !== item.id))}>&#10005;</span>
+                <span className="cursor-pointer" onClick={() => setCartItem(cartItem.filter(v => v.id !== item.id))}>&#10005;</span>
             </td>
         </tr>
     )

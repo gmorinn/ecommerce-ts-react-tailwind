@@ -13,12 +13,12 @@ const Homepage: FC = () => {
     const section = useRecoilValue(directoryAtom)
     return (
         <>
-            <div className="mb-5 grid grid-cols-3 gap-7">
+            <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-3 gap-7">
                 {section && section?.length > 0 && section?.map(v => {
                     return <MenuItem title={v.title} url={v.url} key={v.id} height={'250px'} />
                 })}
             </div>
-            <div className="mb-5 grid grid-cols-2 gap-7">
+            <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2 gap-7">
                 {section2 && section2?.length > 0 && section2?.map(v => {
                     return <MenuItem title={v.title} url={v.url} key={v.id} height={'350px'} />
                 })}

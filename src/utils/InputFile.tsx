@@ -62,7 +62,7 @@ const InputFileBrowser = ({ id, limit, value, w, h, set, className, accept }: Fi
 	}
 
     return (
-        <div className="mt-5 w-100">
+        <div className="mt-5 w-full">
 			<input id={id} className={className} accept={accept} type="file" onChange={uploadFile} />
             {value !== "" && <small onClick={removeFile} className="text-danger text-center" style={{cursor: 'pointer'}}>Supprimer l'image actuelle</small>}
 			{err && err !== "" && <small className="text-danger text-center">{err}</small>}

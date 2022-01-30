@@ -11,7 +11,7 @@ const PreviewCollection = ({ items }:PreviewCollectionProps) => {
     return (
         <>
             <h1 className="bloc text-lg text-blue-600 mb-5">{category?.toUpperCase()}</h1>
-            <div className="mb-5 grid grid-cols-4 gap-5">
+            <div className="mb-5 grid  grid-cols-1 sm:grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 {items && items.length > 0 && items
                     .map((item) => {
                         return (

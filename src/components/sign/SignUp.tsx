@@ -47,8 +47,8 @@ const SignUp = () => {
                         lastname: data.lastname,
                         password: data.password,
                         confirm_password: data.confirm_password,
-                        phone: data.phone,
-                        birthday: data.birthday
+                        // phone: data.phone,
+                        // birthday: data.birthday
                     }).then((res:any) => {
                             if (res?.success) {
                                 displaySuccess("You're connected")
@@ -67,9 +67,10 @@ const SignUp = () => {
                         <Controller
                             control={control}
                             name="firstname"
+                            defaultValue={""}
                             render={({ field }) => <input {...field} type="text"
                             className="bg-transparent w-3/4 block outline-none mb-1 border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
-                            id="firsntame"
+                            id="firstname"
                             placeholder="Firstname..."
                         />}
                     />
@@ -81,6 +82,7 @@ const SignUp = () => {
                         <Controller
                             control={control}
                             name="lastname"
+                            defaultValue={""}
                             render={({ field }) => <input {...field} type="text"
                             className="bg-transparent w-3/4 block outline-none mb-1 border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
                             id="firsntame"
@@ -95,6 +97,7 @@ const SignUp = () => {
                         <Controller
                             control={control}
                             name="email"
+                            defaultValue={""}
                             render={({ field }) => <input {...field} type="email"
                             className="bg-transparent w-3/4 block outline-none mb-1 border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
                             id="email"
@@ -109,6 +112,7 @@ const SignUp = () => {
                         <Controller
                                 control={control}
                                 name="password"
+                                defaultValue={""}
                                 render={({ field }) => <input {...field} type="password"
                                 className="bg-transparent w-3/4 block mb-1 outline-none border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
                                 id="password"
@@ -123,6 +127,7 @@ const SignUp = () => {
                         <Controller
                                 control={control}
                                 name="confirm_password"
+                                defaultValue={""}
                                 render={({ field }) => <input {...field} type="password"
                                 className="bg-transparent w-3/4 block mb-1 outline-none border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
                                 id="confirm_password"
@@ -141,7 +146,7 @@ const SignUp = () => {
                         Register
                     </>}
                 </button>
-                {error && <span className="ext-red-900 text-sm">{error}</span>}
+                {error && <span className="block text-red-900 text-sm">{error}</span>}
             </form>
         </div>
     )
