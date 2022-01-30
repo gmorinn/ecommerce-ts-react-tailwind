@@ -98,6 +98,154 @@ function useProvideAuth() {
 		}
 	}, [oAuth])
 
+	const signWithProvider = async ():Promise<any> => {
+		setLoad(true)
+		firebase
+			.auth()
+			.signInWithPopup(googleAuthProvider)
+			.then(async (res:any) => {
+				if (res && res.additionalUserInfo && res.user) {
+					if (res.user.multiFactor.user) {
+						const payload = {
+							firstname: res.additionalUserInfo.profile.given_name,
+							lastname: res.additionalUserInfo.profile.family_name,
+							email: res.additionalUserInfo.profile.email,
+							firebase_provider: res.additionalUserInfo.providerId,
+							firebase_uid: res.user.multiFactor.user.uid,
+							firebase_id_token: res.user.multiFactor.user.accessToken,
+						}
+						await fetch(`${api}/sign-providers`, {
+							headers: {
+								"Content-Type": "application/json",
+								"Authorization": `Bearer ${getOAuthToken()}`,
+							},
+							method: "POST",
+							body: JSON.stringify({
+								...payload
+							})
+						}).then(async resp => {
+							if (resp.status === 403) {
+								await getAuthorization().then(async () => await signWithProvider())
+							}
+							return await resp.json()
+						}).then(body => {
+							setLoad(false)
+							setAccessToken(body.access_token);
+							setRefreshToken(body.refresh_token);
+							setUser(getUser(body.access_token));
+							return body;
+						})
+					}
+				}
+			})
+	};
+
+	
+	const checkMailAndSendCode = async (data:string):Promise<ResultSendCodeConfirmation> => {
+		setLoad(true)
+		return await fetch(`${api}/v1/lost`, {
+			headers: {
+				"Authorization": `Bearer ${getOAuthToken()}`,
+				"Content-Type": "application/json"
+			},
+			method: "POST",
+			body: JSON.stringify({
+				email: data
+			})
+		}).then(async resp => {
+			if (resp.status === 403) {
+				await getAuthorization().then(async () => await checkMailAndSendCode(data))
+			}
+			return await resp.json()
+		}).then(body => {
+			setLoad(false)
+			return body
+		})
+	};
+
+	const signup = async (reqBody:SignUpParams):Promise<ResultJwt> => {
+		setLoad(true)
+		let res = await fetch(`${api}/signup`, {
+			headers: {
+				Authorization: `Bearer ${getOAuthToken()}`,
+				"Content-Type": "application/json"
+			},
+			method: "POST",
+			body: JSON.stringify({
+				...reqBody
+			})
+		})
+		if (res.status === 403) {
+			return await getAuthorization().then(res => res && signup(reqBody))
+		}
+		setLoad(false)
+		return await res.json().then((resp) => {
+			setAccessToken(resp.access_token);
+			setRefreshToken(resp.refresh_token);
+			setUser(getUser(resp.access_token));
+			return resp
+		})
+		.catch(err => {
+			console.error(err)
+			return err
+		})
+	}
+
+	const logout = () => {
+		localStorage.removeItem("refreshToken")
+		localStorage.removeItem("accessToken")
+		setUser(() => null)
+	};
+
+	const newPassword = async (password:string, confirm:string, id:string):Promise<SuccessResult> => {
+		setLoad(true)
+		const requestHeaders: any = new Headers();
+		requestHeaders.set('Authorization', `Bearer ${getOAuthToken()}`);
+		requestHeaders.set('jwtToken', getAccessToken());
+		requestHeaders.set('Content-Type', 'application/json');
+
+		return await fetch(`${api}/v1/bo/user/change/password/${id}`, {
+			headers: requestHeaders,
+			method: "PATCH",
+			body: JSON.stringify({
+				password,
+				confirm,
+			})
+		}).then(async resp => {
+			if (resp.status === 403) {
+				await getAuthorization().then(async () => await newPassword(password, confirm, id))
+			}
+			return await resp.json()
+		}).then(body => {
+			setLoad(false)
+			return body
+		})
+	};
+
+	const resetPassword = async ({email, password, code, confirm_password}:ResetPasswordProps):Promise<SuccessResult> => {
+		setLoad(true)
+		return await fetch(`${api}/v1/reset-password`, {
+			headers: {
+				"Authorization": `Bearer ${getOAuthToken()}`,
+				"Content-Type": "application/json"
+			},
+			method: "PUT",
+			body: JSON.stringify({
+				email,
+				password,
+				code,
+				confirm_password
+			})
+		}).then(async resp => {
+			if (resp.status === 403) {
+				await getAuthorization().then(async () => await resetPassword({email, password, code, confirm_password}))
+			}
+			return await resp.json()
+		}).then(body => {
+			setLoad(false)
+			return body
+		})
+	};
 	const refreshToken = async (refresh_token?:string):Promise<ResultJwt | any> => {
 		const r_token = refresh_token || getRefreshToken()
 
@@ -194,154 +342,6 @@ function useProvideAuth() {
 		})
 	};
 
-	const signWithProvider = async ():Promise<any> => {
-		setLoad(true)
-		firebase
-			.auth()
-			.signInWithPopup(googleAuthProvider)
-			.then(async (res:any) => {
-				if (res && res.additionalUserInfo && res.user) {
-					if (res.user.multiFactor.user) {
-						const payload = {
-							firstname: res.additionalUserInfo.profile.given_name,
-							lastname: res.additionalUserInfo.profile.family_name,
-							email: res.additionalUserInfo.profile.email,
-							firebase_provider: res.additionalUserInfo.providerId,
-							firebase_uid: res.user.multiFactor.user.uid,
-							firebase_id_token: res.user.multiFactor.user.accessToken,
-						}
-						await fetch(`${api}/sign-providers`, {
-							headers: {
-								"Content-Type": "application/json",
-								"Authorization": `Bearer ${getOAuthToken()}`,
-							},
-							method: "POST",
-							body: JSON.stringify({
-								...payload
-							})
-						}).then(async resp => {
-							if (resp.status === 403) {
-								await getAuthorization().then(async () => await signWithProvider())
-							}
-							return await resp.json()
-						}).then(body => {
-							setLoad(false)
-							setAccessToken(body.access_token);
-							setRefreshToken(body.refresh_token);
-							setUser(getUser(body.access_token));
-							return body;
-						})
-					}
-				}
-			})
-	};
-
-
-	const signup = async (reqBody:SignUpParams):Promise<ResultJwt> => {
-		setLoad(true)
-		let res = await fetch(`${api}/signup`, {
-			headers: {
-				Authorization: `Bearer ${getOAuthToken()}`,
-				"Content-Type": "application/json"
-			},
-			method: "POST",
-			body: JSON.stringify({
-				...reqBody
-			})
-		})
-		if (res.status === 403) {
-			return await getAuthorization().then(res => res && signup(reqBody))
-		}
-		setLoad(false)
-		return await res.json().then((resp) => {
-			setAccessToken(resp.access_token);
-			setRefreshToken(resp.refresh_token);
-			setUser(getUser(resp.access_token));
-			return resp
-		})
-		.catch(err => {
-			console.error(err)
-			return err
-		})
-	}
-
-	const logout = () => {
-		localStorage.removeItem("refreshToken")
-		localStorage.removeItem("accessToken")
-		setUser(() => null)
-	};
-
-	const checkMailAndSendCode = async (data:string):Promise<ResultSendCodeConfirmation> => {
-		setLoad(true)
-		return await fetch(`${api}/v1/lost`, {
-			headers: {
-				"Authorization": `Bearer ${getOAuthToken()}`,
-				"Content-Type": "application/json"
-			},
-			method: "POST",
-			body: JSON.stringify({
-				email: data
-			})
-		}).then(async resp => {
-			if (resp.status === 403) {
-				await getAuthorization().then(async () => await checkMailAndSendCode(data))
-			}
-			return await resp.json()
-		}).then(body => {
-			setLoad(false)
-			return body
-		})
-	};
-
-	const newPassword = async (password:string, confirm:string, id:string):Promise<SuccessResult> => {
-		setLoad(true)
-        const requestHeaders: any = new Headers();
-        requestHeaders.set('Authorization', `Bearer ${getOAuthToken()}`);
-        requestHeaders.set('jwtToken', getAccessToken());
-        requestHeaders.set('Content-Type', 'application/json');
-
-		return await fetch(`${api}/v1/bo/user/change/password/${id}`, {
-			headers: requestHeaders,
-			method: "PATCH",
-			body: JSON.stringify({
-				password,
-				confirm,
-			})
-		}).then(async resp => {
-			if (resp.status === 403) {
-				await getAuthorization().then(async () => await newPassword(password, confirm, id))
-			}
-			return await resp.json()
-		}).then(body => {
-			setLoad(false)
-			return body
-		})
-	};
-
-	const resetPassword = async ({email, password, code, confirm_password}:ResetPasswordProps):Promise<SuccessResult> => {
-		setLoad(true)
-		return await fetch(`${api}/v1/reset-password`, {
-			headers: {
-				"Authorization": `Bearer ${getOAuthToken()}`,
-				"Content-Type": "application/json"
-			},
-			method: "PUT",
-			body: JSON.stringify({
-				email,
-				password,
-				code,
-				confirm_password
-			})
-		}).then(async resp => {
-			if (resp.status === 403) {
-				await getAuthorization().then(async () => await resetPassword({email, password, code, confirm_password}))
-			}
-			return await resp.json()
-		}).then(body => {
-			setLoad(false)
-			return body
-		})
-	};
 
 	useEffect(() => {
 		if (loggedIn()) {
