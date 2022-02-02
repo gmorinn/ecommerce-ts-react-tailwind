@@ -1,11 +1,6 @@
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
-
-type MenuItemProps = {
-    title: string,
-    url: string,
-    height: string,
-}
+import { MenuItemProps } from "../../utils/types";
 
 const MenuItem = ({ title, url, height }: MenuItemProps) => {
     const navigate = useNavigate()

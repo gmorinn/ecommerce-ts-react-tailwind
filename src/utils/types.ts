@@ -95,3 +95,14 @@ export type SectionDetails  = {
     url: string,
     title: string,
 }
+
+export type MenuItemProps = {
+    title: string,
+    url: string,
+    height: string,
+}
+
+export type PreviewAllProps = {
+    title: string,
+    items: ProductDetails[]
+}

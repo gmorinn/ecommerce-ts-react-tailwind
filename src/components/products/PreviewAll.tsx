@@ -1,10 +1,6 @@
-import { ProductDetails } from "../../utils/types";
+import { PreviewAllProps } from "../../utils/types";
 import CollectionItem from "./CollectionItem";
 
-type PreviewAllProps = {
-    title: string,
-    items: ProductDetails[]
-}
 
 const PreviewAll = ({ title, items }:PreviewAllProps) => {
     return (
