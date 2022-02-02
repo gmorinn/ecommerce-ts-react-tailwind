@@ -61,6 +61,7 @@ const SignIn = () => {
                     <Controller
                         control={control}
                         name="email"
+                        defaultValue={""}
                         render={({ field }) => <input {...field} type="email"
                         className="bg-transparent w-3/4 block outline-none mb-1 border-b-1 mt-8 border-t-0 border-r-0 border-l-0 border-indigo-500"
                         id="email"
@@ -75,6 +76,7 @@ const SignIn = () => {
                     <Controller
                             control={control}
                             name="password"
+                            defaultValue={""}
                             render={({ field }) => <input {...field} type="password"
                             className="bg-transparent w-3/4 block mb-1 outline-none border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
                             id="password"
@@ -100,7 +102,7 @@ const SignIn = () => {
                     </>}
                 </button>
 
-                {error && <span className="text-red-900 text-sm">{error}</span>}
+                {error && <span className="text-red-900 text-sm block">{error}</span>}
             </form>
         </div>
     )
