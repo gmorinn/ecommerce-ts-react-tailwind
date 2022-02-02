@@ -86,7 +86,7 @@ export type ProductDetails  = {
     name: string,
     cover: string,
     price: number,
-    category: string,
+    category: 'hat' | 'sneaker' | 'jacket' | 'men' | 'women',
     quantity: number
 }
 
@@ -103,8 +103,8 @@ export type MenuItemProps = {
 }
 
 export type PreviewAllProps = {
-    title: string,
-    items: ProductDetails[]
+    title: 'hat' | 'sneaker' | 'jacket' | 'men' | 'women',
+    items: ProductDetails[] | null
 }
 
 export type PreviewCollectionProps = {

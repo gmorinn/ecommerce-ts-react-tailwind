@@ -8,7 +8,7 @@ describe('CartItem', () => {
         id: "1112f22-55v52-5df222-dfg52f1",
         name:'AirMax',
         cover: 'http://guillaumemorin.png',
-        category: 'shoes',
+        category: 'sneaker',
         price: 49.9,
         quantity: 3,
     }

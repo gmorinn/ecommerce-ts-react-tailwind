@@ -9,9 +9,9 @@ const PreviewAll = ({ title, items }:PreviewAllProps) => {
             <div className="mb-5 grid grid-cols-1 sm:grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {items && items.length > 0 && items
                     .filter(v => v.category === title.toLowerCase())
-                    .map(v => {
+                    .map((v, i) => {
                         return  (
-                        <div key={v.id} >
+                        <div key={v.id} data-testid={`item-${i}`}>
                             <CollectionItem item={v} />
                         </div>
                         )
