@@ -106,3 +106,7 @@ export type PreviewAllProps = {
     title: string,
     items: ProductDetails[]
 }
+
+export type PreviewCollectionProps = {
+    items: ProductDetails[] | null
+}

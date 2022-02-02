@@ -3,11 +3,12 @@ import PreviewCollection from "./PreviewCollection";
 import { useApi } from '../../hooks/useApi'
 import ErrorIcon from '../../assets/icons/error.svg';
 import { useParams } from "react-router-dom";
+import { ProductDetails } from "../../utils/types";
 
 const CollectionOverview:FC = () => {
     const { Fetch } = useApi()
 	let { category } = useParams<{category: string}>();
-    const [collections, setCollections] = useState([])
+    const [collections, setCollections] = useState<ProductDetails[] | null>(null)
 
     useEffect(() => {
         Fetch(`/v1/web/products/category/${category?.substring(0,category?.length-1)}`).then(resp => {
