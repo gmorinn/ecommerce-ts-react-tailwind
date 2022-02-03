@@ -63,7 +63,7 @@ const SignUp = () => {
             <h2 className="mb-4">Register</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
                 <div className="mb-5 grid grid-cols-2 gap-3">
-                <div className="mb-7">
+                <div className="mb-7 test-firstname">
                         <Controller
                             control={control}
                             name="firstname"
@@ -78,14 +78,14 @@ const SignUp = () => {
                         {errors.firstname?.type === 'min' && <span className="text-red-900 text-sm">Too small</span>}
                     </div>
 
-                    <div className="mb-7">
+                    <div className="mb-7 test-lastname">
                         <Controller
                             control={control}
                             name="lastname"
                             defaultValue={""}
                             render={({ field }) => <input {...field} type="text"
                             className="bg-transparent w-3/4 block outline-none mb-1 border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
-                            id="firsntame"
+                            id="lastname"
                             placeholder="Lastname..."
                         />}
                     />
@@ -93,7 +93,7 @@ const SignUp = () => {
                         {errors.lastname?.type === 'min' && <span className="text-red-900 text-sm">Too small</span>}
                     </div>
 
-                    <div className="mb-7">
+                    <div className="mb-7 test-email">
                         <Controller
                             control={control}
                             name="email"
@@ -108,7 +108,7 @@ const SignUp = () => {
                         {errors.email?.type === 'email' && <span className="text-red-900 text-sm">Wrong format</span>}
                     </div>
 
-                    <div className="mb-7">
+                    <div className="mb-7 test-password">
                         <Controller
                                 control={control}
                                 name="password"
@@ -123,7 +123,7 @@ const SignUp = () => {
                         {errors.password?.type === 'min' && <span className="text-red-900 text-sm">Too small</span>}
                     </div>
 
-                    <div className="mb-7">
+                    <div className="mb-7 test-confirm">
                         <Controller
                                 control={control}
                                 name="confirm_password"
