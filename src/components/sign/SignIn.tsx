@@ -57,14 +57,14 @@ const SignIn = () => {
             <span>Login</span>
             <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
 
-                <div className="mb-7">
+                <div className="mb-7 test-email">
                     <Controller
                         control={control}
                         name="email"
                         defaultValue={""}
                         render={({ field }) => <input {...field} type="email"
                         className="bg-transparent w-3/4 block outline-none mb-1 border-b-1 mt-8 border-t-0 border-r-0 border-l-0 border-indigo-500"
-                        id="email"
+                        id="emailSignIn"
                         placeholder="Email..."
                     />}
                 />
@@ -72,14 +72,14 @@ const SignIn = () => {
                     {errors.email?.type === 'email' && <span className="text-red-900 text-sm">Wrong format</span>}
                 </div>
 
-                <div className="mb-10">
+                <div className="mb-10 test-password">
                     <Controller
                             control={control}
                             name="password"
                             defaultValue={""}
                             render={({ field }) => <input {...field} type="password"
                             className="bg-transparent w-3/4 block mb-1 outline-none border-b-1 border-t-0 border-r-0 border-l-0 border-indigo-500"
-                            id="password"
+                            id="passwordSignIn"
                             placeholder="Password..."
                         />}
                     />

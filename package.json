@@ -58,8 +58,12 @@
     ]
   },
   "devDependencies": {
+    "@cypress/react": "^5.12.1",
+    "@cypress/webpack-dev-server": "^1.8.0",
+    "@testing-library/cypress": "^8.0.2",
     "@types/react-router-dom": "^5.3.2",
     "autoprefixer": "^9.8.8",
+    "cypress": "^9.4.1",
     "postcss": "^7.0.39",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   }

@@ -20,11 +20,11 @@ const Shop: FC = () => {
         <>
             { shop && shop.length > 0 ?
             <>
-                <PreviewAll title="Men" items={shop}/>
-                <PreviewAll title="Women" items={shop}/>
-                <PreviewAll title="Sneaker" items={shop}/>
-                <PreviewAll title="Hat" items={shop}/>
-                <PreviewAll title="Jacket" items={shop}/>
+                <PreviewAll title="men" items={shop}/>
+                <PreviewAll title="women" items={shop}/>
+                <PreviewAll title="sneaker" items={shop}/>
+                <PreviewAll title="hat" items={shop}/>
+                <PreviewAll title="jacket" items={shop}/>
             </> :
             <div className="w-100 h-100">
                 <h3 className="text-center p-5 mt-auto">
