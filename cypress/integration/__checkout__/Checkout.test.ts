@@ -60,17 +60,48 @@ describe("Checkout Page", () => {
         cy.url().should('eq', 'http://localhost:3000/shop')
     })
 
-    // it("add quantity in checkout page", () => {
-    //     cy.visit('http://localhost:3000');
-    //     cy.visit('http://localhost:3000');
-    //     cy.findByRole('link', { name: /sign/i }).click()
-    //     cy.get('input[id="emailSignIn"]').type('guillaume@gmail.com')
-    //     cy.get('input[id="passwordSignIn"]').type('azertyuiop123')
-    //     cy.findByRole('button', { name: /email login by mail/i}).click()
-    //     cy.get('#root > div > nav > div > div > ul > li:nth-child(4) > div > div').click()
-    //     cy.findByRole('button', { name: /go to checkout/i }).click()
-    //     cy.findByRole('heading', { name: /your shopping cart is empty/i })
-    //     cy.findByRole('button', { name: /buy now !/i }).click()
-    //     cy.url().should('eq', 'http://localhost:3000/shop')
-    // })
+    it("add and remove quantity in checkout page", () => {
+        cy.visit('http://localhost:3000');
+        cy.visit('http://localhost:3000');
+        cy.findByRole('link', { name: /sign/i }).click()
+        cy.get('input[id="emailSignIn"]').type('guillaume@gmail.com')
+        cy.get('input[id="passwordSignIn"]').type('azertyuiop123')
+        cy.findByRole('button', { name: /email login by mail/i}).click()
+
+        cy.get('#root > div > div:nth-child(2) > div:nth-child(1)').click()
+        cy.get('[data-testid="item-0"]').within(() => {
+            cy.findByRole('button', { name: /add to cart/i }).click()
+        })
+
+        cy.get('#root > div > nav > div > div > ul > li:nth-child(4) > div > div').click()
+        cy.findByRole('button', { name: /go to checkout/i }).click()
+        cy.get(".more").click()
+        cy.findByRole('list').contains('2')
+        cy.get("tbody").contains('2')
+        cy.get(".less").click().click()
+        cy.findByRole('list').contains('0')
+        cy.findByRole('heading', { name: /your shopping cart is empty/i })
+    })
+
+    it("remove a prodouct in checkout page", () => {
+        cy.visit('http://localhost:3000');
+        cy.visit('http://localhost:3000');
+        cy.findByRole('link', { name: /sign/i }).click()
+        cy.get('input[id="emailSignIn"]').type('guillaume@gmail.com')
+        cy.get('input[id="passwordSignIn"]').type('azertyuiop123')
+        cy.findByRole('button', { name: /email login by mail/i}).click()
+
+        cy.get('#root > div > div:nth-child(2) > div:nth-child(1)').click()
+        cy.get('[data-testid="item-0"]').within(() => {
+            cy.findByRole('button', { name: /add to cart/i }).click()
+            cy.findByRole('button', { name: /add to cart/i }).click()
+            cy.findByRole('button', { name: /add to cart/i }).click()
+        })
+
+        cy.get('#root > div > nav > div > div > ul > li:nth-child(4) > div > div').click()
+        cy.findByRole('button', { name: /go to checkout/i }).click()
+         cy.get(".remove").click()
+        cy.findByRole('list').contains('0')
+        cy.findByRole('heading', { name: /your shopping cart is empty/i })
+    })
 })
