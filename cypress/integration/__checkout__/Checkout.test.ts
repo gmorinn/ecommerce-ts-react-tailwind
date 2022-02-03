@@ -10,7 +10,7 @@ describe("Checkout Page", () => {
         cy.url().should('eq', 'http://localhost:3000/sign')
     })
 
-    it("flow homepage to buy products", () => {
+    it("home page to purchase", () => {
         cy.visit('http://localhost:3000');
         cy.findByRole('link', { name: /sign/i }).click()
         cy.get('input[id="emailSignIn"]').type('guillaume@gmail.com')
@@ -83,7 +83,7 @@ describe("Checkout Page", () => {
         cy.findByRole('heading', { name: /your shopping cart is empty/i })
     })
 
-    it("remove a prodouct in checkout page", () => {
+    it("remove a product in checkout page", () => {
         cy.visit('http://localhost:3000');
         cy.visit('http://localhost:3000');
         cy.findByRole('link', { name: /sign/i }).click()

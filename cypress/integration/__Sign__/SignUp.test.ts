@@ -2,7 +2,7 @@ import { generateEmail, generateName } from "../../../src/utils/generate";
 
 
 describe("SignUp method", () => {
-    it("password and confirm password not match", () => {
+    it("password and confirm password doesn't match", () => {
         cy.visit('http://localhost:3000/sign');
         cy.get('input[id="email"]').type(generateEmail())
         cy.get('input[id="firstname"]').type(generateName())
@@ -26,7 +26,7 @@ describe("SignUp method", () => {
         cy.get("form").contains("Password must contain at least one number.")
     })
 
-    it("email already exist", () => {
+    it("email already exists", () => {
         cy.visit('http://localhost:3000/sign');
         cy.get('input[id="email"]').type('guillaume@gmail.com')
         cy.get('input[id="firstname"]').type(generateName())
@@ -35,10 +35,10 @@ describe("SignUp method", () => {
         cy.get('input[id="confirm_password"]').type('azertyuiop1')
         cy.findByRole('button', {  name: /register register/i}).click()
         cy.url().should('eq', 'http://localhost:3000/sign')
-        cy.get("form").contains("Email already exist.")
+        cy.get("form").contains("Email already exists.")
     })
 
-    it("password to small", () => {
+    it("password too small", () => {
         cy.visit('http://localhost:3000/sign');
         cy.get('input[id="email"]').type(generateEmail())
         cy.get('input[id="firstname"]').type(generateName())

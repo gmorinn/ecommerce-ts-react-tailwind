@@ -7,7 +7,7 @@ const Err = (res: ErrorAPI):string => {
 			case res.err.includes("no rows in result set"):
 				return "Email or password incorrect"
 			case res.err.includes("EMAIL_ALREADY_EXIST"):
-				return "Email already exist."
+				return "Email already exists."
 			case res.err.includes("unique_violation"):
 				return "The data entered is already in use."
 			case res.err.includes("BAD_ROLE"):
