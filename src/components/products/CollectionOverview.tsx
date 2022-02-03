@@ -4,14 +4,15 @@ import { useApi } from '../../hooks/useApi'
 import ErrorIcon from '../../assets/icons/error.svg';
 import { useParams } from "react-router-dom";
 import { ProductDetails } from "../../utils/types";
+import Loader from "../Loader";
 
 const CollectionOverview:FC = () => {
-    const { Fetch } = useApi()
+    const { Fetch, loading } = useApi()
 	let { category } = useParams<{category: string}>();
     const [collections, setCollections] = useState<ProductDetails[] | null>(null)
 
     useEffect(() => {
-        Fetch(`/v1/web/products/category/${category?.substring(0,category?.length-1)}`).then(resp => {
+        Fetch(`/v1/web/products/category/${category}`).then(resp => {
             if (resp?.success && resp.products) {
                 setCollections(resp.products)
             }
@@ -21,7 +22,7 @@ const CollectionOverview:FC = () => {
 
     return (
         <>
-            {collections && collections.length > 0 ? 
+            {loading ? <Loader /> : collections && collections.length > 0 ? 
                 <PreviewCollection items={collections} />
                 :
                 <div className="w-full h-full">

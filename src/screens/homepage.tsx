@@ -5,8 +5,8 @@ import MenuItem from "../components/products/MenuItem";
 import { directoryAtom } from "../store/directory";
 
 const section2:SectionDetails[] = [
-    { title: 'womens', url: 'https://i.ibb.co/GCCdy8t/womens.png', id: 4 },
-    { title: 'mens', url: 'https://i.ibb.co/R70vBrQ/mens.png', id: 5 },
+    { title: 'women', url: 'https://i.ibb.co/GCCdy8t/womens.png', id: 4 },
+    { title: 'men', url: 'https://i.ibb.co/R70vBrQ/mens.png', id: 5 },
 ]
 
 const Homepage: FC = () => {

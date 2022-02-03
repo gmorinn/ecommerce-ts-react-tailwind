@@ -2,10 +2,11 @@ import { FC, useEffect, useState } from "react";
 import PreviewAll from "../components/products/PreviewAll";
 import { useApi } from '../hooks/useApi'
 import ErrorIcon from '../assets/icons/error.svg';
+import Loader from "../components/Loader";
 
 const Shop: FC = () => {
     const [shop, setShop] = useState([])
-    const { Fetch } = useApi()
+    const { Fetch, loading } = useApi()
 
     useEffect(() => {
         Fetch(`/v1/web/products`).then(resp => {
@@ -18,7 +19,7 @@ const Shop: FC = () => {
 
     return (
         <>
-            { shop && shop.length > 0 ?
+            { loading ? <Loader /> : shop && shop.length > 0 ?
             <>
                 <PreviewAll title="men" items={shop}/>
                 <PreviewAll title="women" items={shop}/>

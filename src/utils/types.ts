@@ -4,6 +4,8 @@ export type Role = 'user' | 'admin' | 'pro'
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
+export type CategoryProduct = 'hat' | 'sneaker' | 'jacket' | 'men' | 'women'
+
 export type Header = {
     Authorization?: string,
     jwtToken?: string,
@@ -86,7 +88,7 @@ export type ProductDetails  = {
     name: string,
     cover: string,
     price: number,
-    category: 'hat' | 'sneaker' | 'jacket' | 'men' | 'women',
+    category: CategoryProduct,
     quantity: number
 }
 
@@ -103,7 +105,7 @@ export type MenuItemProps = {
 }
 
 export type PreviewAllProps = {
-    title: 'hat' | 'sneaker' | 'jacket' | 'men' | 'women',
+    title: CategoryProduct,
     items: ProductDetails[] | null
 }
 

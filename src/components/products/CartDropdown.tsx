@@ -16,7 +16,7 @@ const CartDropdown: FC = () => {
                 cartItems.map(v => {
                     return <CartItem key={v.id} id={v.id} cover={v.cover} name={v.name} price={v.price} quantity={v.quantity} category={v.category} />
                 }) :
-                <span className="d-flex justify-content-center text-dark">Card is empty</span>
+                <span className="flex content-center mx-auto mb-2 text-black">Card is empty</span>
             }
             <button onClick={() => {
                 setCartHidden(v => !v)
